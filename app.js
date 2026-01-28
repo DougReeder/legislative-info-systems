@@ -29,7 +29,7 @@ app.use('/legislator', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404, "Sorry, we couldn't find that page."));
+  next(createError(404, "Sorry, we couldn't find that page"));
 });
 
 // error handler

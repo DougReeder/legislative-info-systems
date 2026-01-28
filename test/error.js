@@ -6,7 +6,8 @@ import http from "http";
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
 
-describe("index page", () => {
+describe("error page", () => {
+  const url = `http://localhost:${PORT}/foo`;
   let server;
 
   before( (_, done) => {
@@ -25,22 +26,22 @@ describe("index page", () => {
   })
 
   it("should return HTML", async () => {
-    const response = await fetch(`http://localhost:${PORT}/`);
-    assert.equal(response.status, 200);
+    const response = await fetch(url);
+    assert.equal(response.status, 404);
     assert.ok(response.headers.get('content-type').startsWith('text/html'));
     assert.ok(response.headers.get('content-type').endsWith(
-      '; charset=utf-8'));
+        '; charset=utf-8'));
   });
 
   it("should have a title", async () => {
-    const response = await fetch(`http://localhost:${PORT}/`);
+    const response = await fetch(url);
     const text = await response.text();
-    assert.ok(text.includes('<title>Home | Legislative Info Systems</title>'));
+    assert.ok(text.includes("<title>Sorry, we couldn't find that page | Legislative Info Systems</title>"));
   });
 
-  it("should have a heading", async () => {
-    const response = await fetch(`http://localhost:${PORT}/`);
+  it("should have a link to home", async () => {
+    const response = await fetch(url);
     const text = await response.text();
-    assert.ok(text.includes('<h1>Home</h1>'));
+    assert.ok(text.includes('<a href="/">Home</a>'));
   });
 });
