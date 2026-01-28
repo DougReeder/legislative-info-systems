@@ -1,0 +1,18 @@
+{
+  "name": "legislative-info-systems",
+  "version": "0.0.0",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "start": "node ./bin/www",
+    "prod": "NODE_ENV=production node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^5.2.1",
+    "http-errors": "~1.6.3",
+    "morgan": "^1.10.1",
+    "pug": "^2.0.4"
+  }
+}
