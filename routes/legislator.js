@@ -36,7 +36,14 @@ router.post('/create', express.urlencoded({limit: 1000, parameterLimit: 3}), fun
     return badName(req, res, "Hometown", hometown);
   }
 
-  res.render('legislator/table', { kind: "Legislator" });
+  req.legislators.insert({ firstName, lastName, hometown });
+
+  const heading = "All Legislators";
+  res.render('legislator/table', {
+    heading,
+    title: heading + " | " + req.app.locals.appTitle,
+    legislators: req.legislatorsAll.data()
+  });
 });
 
 function badName(req, res, label, name) {

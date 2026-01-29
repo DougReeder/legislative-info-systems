@@ -59,6 +59,27 @@ describe("legislator create", () => {
       const text = await response.text();
       assert.match(text, /<h2>.* “123” is invalid<\/h2>/);
     });
-
   }
+
+  it(`should accept a valid POST & display all`, async() => {
+    const params = new URLSearchParams([["firstName", "John"], ["lastName", "Doe"], ["hometown", "Centerville"]]);
+    const response = await fetch(url, {
+      method: 'POST',
+      body: params,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    });
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.match(text, /<ul><li>John Doe from Centerville<\/li><\/ul>/);
+
+    const params2 = new URLSearchParams([["firstName", "Alexis"], ["lastName", "Ballyrun"], ["hometown", "Columbus"]]);
+    const response2 = await fetch(url, {
+      method: 'POST',
+      body: params2,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    });
+    assert.equal(response2.status, 200);
+    const text2 = await response2.text();
+    assert.match(text2, /<ul><li>Alexis Ballyrun from Columbus<\/li><li>John Doe from Centerville<\/li><\/ul>/);
+  });
  });
