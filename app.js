@@ -7,12 +7,14 @@ import logger from 'morgan';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import { legislatorsColl } from './db/collections.js';
+import { legislatorsColl, closeDB } from './db/collections.js';
 
 import indexRouter from './routes/index.js';
 import legislatorsRouter from './routes/legislator.js';
 
 const app = express();
+
+app.shutdownFunc = [ closeDB ];
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

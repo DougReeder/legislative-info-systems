@@ -5,8 +5,8 @@
  */
 
 import app from '../app.js';
-import Debug from 'debug';
-const debug = Debug('legislative-info-systems:server');
+// import Debug from 'debug';
+// const debug = Debug('legislative-info-systems:server');
 import http from 'http';
 
 /**
@@ -87,12 +87,51 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.debug('Listening on ' + bind);
 }
 
-process.on('SIGTERM', () => {
-  debug('SIGTERM signal received: closing HTTP server')
-  server.close(() => {
-    debug('HTTP server closed')
-  })
-});
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+let isShuttingDown = false;
+async function shutdown(signal) {
+  if (isShuttingDown) {
+    console.warn(`ignoring ${signal} signal because already shutting down`);
+    return;   // must be outside try-finally
+  }
+  try {
+    setTimeout(() => {
+      console.error(`shutdown is taking a long time; will respond to next signal`);
+      isShuttingDown = false;
+    }, 10_000);
+    isShuttingDown = true;
+    console.debug(`${signal} signal received: closing HTTP server`);
+    await new Promise((resolve, reject) => {
+      server.close(async (err) => {
+        let exitCode = 0;
+        if (err) {
+          console.error(`server shutdown error: ${err}`);
+          exitCode = 1;
+        } else {
+          console.debug('HTTP server closed');
+        }
+
+        let i = 0;
+        for await (const func of app.shutdownFunc) {
+          try {
+            await func(signal);
+          } catch (err) {
+            console.error(`shutdown error: ${err}`);
+            exitCode ||= (++i + 1);
+          }
+        }
+
+        process.exit(exitCode);
+      });
+    });
+  } catch (err) {
+    console.error(`while shutting down: ${err}`);
+  } finally {
+    isShuttingDown = false;
+  }
+}
