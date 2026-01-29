@@ -39,4 +39,26 @@ describe("legislator create", () => {
     assert.match(text, /<button type="submit">/);
   });
 
+  it("should reject a POST without form data", async() => {
+    const response = await fetch(url, { method: 'POST' });
+    assert.equal(response.status, 400);
+    const text = await response.text();
+    assert.match(text, /<h2>No request body found<\/h2>/);
+  });
+
+  for (const name of ['firstName', 'lastName', 'hometown']) {
+    it(`should reject a POST with invalid ${name}`, async() => {
+      const params = new URLSearchParams([["firstName", "first"], ["lastName", "last"], ["hometown", "home"]]);
+      params.set(name, '123');
+      const response = await fetch(url, {
+        method: 'POST',
+        body: params,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      });
+      assert.equal(response.status, 400);
+      const text = await response.text();
+      assert.match(text, /<h2>.* “123” is invalid<\/h2>/);
+    });
+
+  }
  });

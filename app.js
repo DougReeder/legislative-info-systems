@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import indexRouter from './routes/index.js';
-import usersRouter from './routes/legislator.js';
+import legislatorsRouter from './routes/legislator.js';
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/legislator', usersRouter);
+app.use('/legislator', legislatorsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
