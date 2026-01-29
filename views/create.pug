@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1 Create #{kind}
+    form(action="/legislator/create" method="post")
+        div(class="form-example")
+            label(for="firstName") First name: &nbsp;
+            input(type="text" name="firstName" id="firstName" required pattern="[\\p{L}\\p{Mn}\\p{Pd}\\p{Zs}']{2,50}")
+        div(class="form-example")
+            label(for="lastName") Last name: &nbsp;
+                    input(type="text" name="lastName" id="lastName" required pattern="[\\p{L}\\p{Mn}\\p{Pd}\\p{Zs}']{2,50}")
+        div(class="form-example")
+            label(for="hometown") Hometown: &nbsp;
+                input(type="text" name="hometown" id="hometown" required pattern="[\\p{L}\\p{Mn}\\p{Pd}\\p{Zs}']{2,50}")
+        button(type="submit") Create legislator

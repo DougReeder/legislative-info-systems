@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/create', function(req, res, next) {
+  const heading = "Create Legislator";
+  res.render('create', { kind: "Legislator", title: heading + " | " + req.app.locals.appTitle });
 });
 
 export default router;
