@@ -6,4 +6,9 @@ block content
     ul
       each legislator in legislators
         li #{legislator.firstName} #{legislator.lastName} from #{legislator.hometown}
+  details(open)
+    summary Legislation
+    each item in legislation
+      h2= item.title
+      p= item.text
 

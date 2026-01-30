@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-    ul
-        each item in legislation
-            h2= item.title
-            p= item.text
+    each item in legislation
+        h2= item.title
+        p= item.text

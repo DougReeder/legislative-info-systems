@@ -14,12 +14,12 @@ async function collectionsFactory(isPersistent) {
     if (isPersistent) {
       db.on('loaded', () => {
         console.debug(`Database loaded`);
-        resolve({injectLegislators, injectLegislation, closeDB});
+        resolve({legislators, injectLegislators, legislation, injectLegislation, closeDB});
       });
     } else {
       setImmediate(() => {
         intializeDatabase();
-        resolve({injectLegislators, injectLegislation, closeDB});
+        resolve({legislators, injectLegislators, legislation, injectLegislation, closeDB});
       });
     }
 

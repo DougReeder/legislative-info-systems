@@ -6,7 +6,8 @@ router.get('/', function(req, res, next) {
   const heading = "Home";
   res.render('index', {
     heading: heading,
-    legislators: req.legislatorsAll.data()
+    legislators: req.legislatorsAll.data(),
+    legislation: req.legislationAll.data()
   });
 });
 
