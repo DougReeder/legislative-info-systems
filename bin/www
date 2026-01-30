@@ -5,12 +5,11 @@
  */
 
 import collectionsFactory from '../db/collectionsFactory.js';
-const { injectLegislators, closeDB } = await collectionsFactory(true);
+const { injectLegislators, injectLegislation, closeDB } = await collectionsFactory(true);
 const shutdownFunc = [ closeDB ];
 
-
 import appFactory from '../appFactory.js';
-const app = await appFactory({injectLegislators});
+const app = await appFactory({injectLegislators, injectLegislation});
 // import Debug from 'debug';
 // const debug = Debug('legislative-info-systems:server');
 import http from 'http';

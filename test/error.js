@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import http from "http";
 import appFactory from '../appFactory.js';
 const mockInjectLegislators = (_req, _res, next) => { next() };
-const app = await appFactory({injectLegislators: mockInjectLegislators});
+const mockInjectLegislation = (_req, _res, next) => { next() };
+const app = await appFactory({injectLegislators: mockInjectLegislators, injectLegislation: mockInjectLegislation});
 
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
@@ -50,5 +51,6 @@ describe("404 Not Found error page", () => {
     assert.ok(nav);
     assert.match(nav, /<a href="\/">Home<\/a>/);
     assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+    assert.match(nav, /<a href="\/legislation\/create">Create Legislation<\/a>/);
   });
 });

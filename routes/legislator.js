@@ -1,12 +1,11 @@
 import express from 'express';
 const router = express.Router();
+import {NAME_REGEX, badName} from "../util/name.js";
 
 router.get('/create', function(req, res, next) {
   res.render('legislator/create', {
     heading: "Create Legislator" });
 });
-
-const NAME_REGEX = /[\p{L}\p{Mn}\p{Pd}\p{Zs}']{2,50}/v;
 
 router.post('/create', express.urlencoded({limit: 1000, parameterLimit: 3}), function (req, res, next) {
   if (!req.body) {
@@ -43,13 +42,5 @@ router.post('/create', express.urlencoded({limit: 1000, parameterLimit: 3}), fun
     legislators: req.legislatorsAll.data()
   });
 });
-
-function badName(req, res, label, name) {
-  res.status(400);
-  res.render('error', {
-    heading: "Invalid input",
-    error: { status: `${label} “${name}” is invalid` }
-  });
-}
 
 export default router;

@@ -14,16 +14,16 @@ async function collectionsFactory(isPersistent) {
     if (isPersistent) {
       db.on('loaded', () => {
         console.debug(`Database loaded`);
-        resolve({injectLegislators, closeDB});
+        resolve({injectLegislators, injectLegislation, closeDB});
       });
     } else {
       setImmediate(() => {
         intializeDatabase();
-        resolve({injectLegislators, closeDB});
+        resolve({injectLegislators, injectLegislation, closeDB});
       });
     }
 
-    let legislators, legislatorsAll;
+    let legislators, legislatorsAll, legislation, legislationAll;
 
     function intializeDatabase() {
       legislators = db.getCollection("legislators");
@@ -36,11 +36,28 @@ async function collectionsFactory(isPersistent) {
         legislatorsAll = legislators.addDynamicView('all');
         legislatorsAll.applySimpleSort( 'lastName');
       }
+
+      legislation = db.getCollection("legislation");
+      if (legislation) {
+        console.debug("reusing existing collection “legislation”");
+        legislationAll = legislation.getDynamicView('all');
+      } else {
+        console.debug("creating collection “legislation”");
+        legislation = db.addCollection('legislation', { indices: ['title'] });
+        legislationAll = legislation.addDynamicView('all');
+        legislationAll.applySimpleSort( 'title');
+      }
     }
 
     function injectLegislators(req, _, next) {
       req.legislators = legislators;
       req.legislatorsAll = legislatorsAll;
+      next();
+    }
+
+    function injectLegislation(req, _, next) {
+      req.legislation = legislation;
+      req.legislationAll = legislationAll;
       next();
     }
 

@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import http from "http";
 import appFactory from '../appFactory.js';
 import collectionsFactory from '../db/collectionsFactory.js';
-const { injectLegislators } = await collectionsFactory(false);
-const app = await appFactory({injectLegislators});
+const { injectLegislators, injectLegislation } = await collectionsFactory(false);
+const app = await appFactory({injectLegislators, injectLegislation});
 
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
@@ -55,6 +55,7 @@ describe("index page", () => {
     assert.ok(nav);
     assert.match(nav, /<a href="\/">Home<\/a>/);
     assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+    assert.match(nav, /<a href="\/legislation\/create">Create Legislation<\/a>/);
   });
 
   it("should have empty drawer of legislators", async () => {

@@ -2,9 +2,9 @@ import { describe, it, before, after } from "node:test";
 import assert from "node:assert/strict";
 import http from "http";
 import collectionsFactory from '../db/collectionsFactory.js';
-const { injectLegislators } = await collectionsFactory(false);
+const { injectLegislators, injectLegislation } = await collectionsFactory(false);
 import appFactory from '../appFactory.js';
-const app = await appFactory({injectLegislators});
+const app = await appFactory({injectLegislators, injectLegislation});
 
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
@@ -40,6 +40,7 @@ describe("legislator create", () => {
     assert.ok(nav);
     assert.match(nav, /<a href="\/">Home<\/a>/);
     assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+    assert.match(nav, /<a href="\/legislation\/create">Create Legislation<\/a>/);
 
     const form = /<form\b.*<\/form>/.exec(text)?.[0];
     assert.match(form, /<form action="\/legislator\/create" method="post">/);
@@ -98,6 +99,7 @@ describe("legislator create", () => {
     assert.ok(nav);
     assert.match(nav, /<a href="\/">Home<\/a>/);
     assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+    assert.match(nav, /<a href="\/legislation\/create">Create Legislation<\/a>/);
 
     assert.match(text2, /<ul><li>Alexis Ballyrun from Columbus<\/li><li>John Doe from Centerville<\/li><\/ul>/);
   });

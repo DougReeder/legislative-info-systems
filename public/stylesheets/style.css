@@ -1,13 +1,38 @@
 body {
-  padding: 50px;
+  margin: 3lh;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 nav {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 1lh;
+  margin-bottom: 1lh;
+  display: flex;
+  justify-content: space-between;
 }
 
 a {
   color: #00B7FF;
+}
+
+form {
+  margin-top: 1lh;
+  margin-bottom: 1lh;
+}
+
+.form-line {
+  margin-top: 1lh;
+  margin-bottom: 1lh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-line input {
+  flex: 1;
+}
+
+.form-line textarea {
+  flex: 1;
+
+  min-height: 12lh;
 }

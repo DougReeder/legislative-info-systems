@@ -9,8 +9,9 @@ const __dirname = path.dirname(__filename);
 
 import indexRouter from './routes/index.js';
 import legislatorsRouter from './routes/legislator.js';
+import legislationRouter from './routes/legislation.js';
 
-async function appFactory({injectLegislators}) {
+async function appFactory({injectLegislators, injectLegislation}) {
   const app = express();
 
 // view engine setup
@@ -21,12 +22,13 @@ async function appFactory({injectLegislators}) {
 
   app.use(logger('dev'));
   app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
+  // app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
 
-  app.use('/', injectLegislators, indexRouter);
+  app.use('/', injectLegislators, injectLegislation, indexRouter);
   app.use('/legislator', injectLegislators, legislatorsRouter);
+  app.use('/legislation', injectLegislation, legislationRouter);
 
 // catch 404 and forward to error handler
   app.use(function(req, res, next) {
