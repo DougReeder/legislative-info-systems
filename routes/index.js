@@ -5,7 +5,8 @@ const router = express.Router();
 router.get('/', function(req, res, next) {
   const heading = "Home";
   res.render('index', {
-    heading: heading
+    heading: heading,
+    legislators: req.legislatorsAll.data()
   });
 });
 

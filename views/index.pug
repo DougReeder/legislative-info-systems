@@ -2,4 +2,9 @@ extends layout
 
 block content
   h1= heading
-  p Welcome to #{title}
+  details(open)
+    summary Legislators
+    ul
+      each legislator in legislators
+        li #{legislator.firstName} #{legislator.lastName} from #{legislator.hometown}
+
