@@ -1,7 +1,9 @@
 import { describe, it, before, after } from "node:test";
 import assert from "node:assert/strict";
-import app from '../app.js';
 import http from "http";
+import appFactory from '../appFactory.js';
+const mockInjectLegislators = (_req, _res, next) => { next() };
+const app = await appFactory({injectLegislators: mockInjectLegislators});
 
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);

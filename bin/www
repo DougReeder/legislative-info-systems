@@ -4,7 +4,13 @@
  * Module dependencies.
  */
 
-import app from '../app.js';
+import collectionsFactory from '../db/collectionsFactory.js';
+const { injectLegislators, closeDB } = await collectionsFactory(true);
+const shutdownFunc = [ closeDB ];
+
+
+import appFactory from '../appFactory.js';
+const app = await appFactory({injectLegislators});
 // import Debug from 'debug';
 // const debug = Debug('legislative-info-systems:server');
 import http from 'http';
@@ -106,7 +112,7 @@ async function shutdown(signal) {
     }, 10_000);
     isShuttingDown = true;
     console.debug(`${signal} signal received: closing HTTP server`);
-    await new Promise((resolve, reject) => {
+    await new Promise(() => {
       server.close(async (err) => {
         let exitCode = 0;
         if (err) {
@@ -117,7 +123,7 @@ async function shutdown(signal) {
         }
 
         let i = 0;
-        for await (const func of app.shutdownFunc) {
+        for await (const func of shutdownFunc) {
           try {
             await func(signal);
           } catch (err) {

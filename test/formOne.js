@@ -1,7 +1,10 @@
 import { describe, it, before, after } from "node:test";
 import assert from "node:assert/strict";
-import app from '../app.js';
 import http from "http";
+import collectionsFactory from '../db/collectionsFactory.js';
+const { injectLegislators } = await collectionsFactory(false);
+import appFactory from '../appFactory.js';
+const app = await appFactory({injectLegislators});
 
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
