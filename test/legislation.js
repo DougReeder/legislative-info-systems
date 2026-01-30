@@ -51,7 +51,7 @@ describe("legislation create", () => {
     assert.match(form, /<label for="title">Title.*<\/label>/);
     assert.match(form, /<input type="text" name="title" id="title" required/);
     assert.match(form, /<label for="text">Text.*<\/label>/);
-    assert.match(form, /<textarea name="text" id="text" required minLength="1" maxLength="100000">/);
+    assert.match(form, /<textarea name="text" id="text" required minLength="1" maxLength="100000"/);
     assert.match(form, /<label>Sponsors.*<\/label>/);
 
     const checkboxes = /<div class="grow">(.*)<\/div>/.exec(text)?.[1];

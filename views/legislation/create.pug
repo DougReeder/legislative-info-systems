@@ -4,10 +4,10 @@ block content
     form(action="/legislation/create" method="post")
         div(class="form-line")
             label(for="title") Title: &nbsp;
-            input(type="text" name="title" id="title" required pattern=".*\\p{L}.*")
+            input(type="text" name="title" id="title" required autofocus autocapitalize="words" placeholder="At least one letter" pattern=".*\\p{L}.*")
         div(class="form-line")
             label(for="text") Text: &nbsp;
-            textarea(name="text" id="text" required minLength="1" maxLength="100000")
+            textarea(name="text" id="text" required minLength="1" maxLength="100000" autocapitalize="on" placeholder="At least one character")
         div(class="form-line")
             label Sponsors:
             div(class="grow")
