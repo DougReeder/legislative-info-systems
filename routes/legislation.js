@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.get('/create', function(req, res, _next) {
   res.render('legislation/create', {
-    heading: "Create Legislation" });
+    heading: "Create Legislation",
+    legislators: req.legislatorsAll.data(),
+  });
 });
 
-router.post('/create', express.urlencoded({limit: 100_000, parameterLimit: 3}), function (req, res, _next) {
+router.post('/create', express.urlencoded({limit: 100_000}), function (req, res, _next) {
   if (!req.body) {
     // renders the error page
     res.status(400);
@@ -23,22 +25,26 @@ router.post('/create', express.urlencoded({limit: 100_000, parameterLimit: 3}), 
   }
   const title = req.body.title?.trim() ?? "";
   const text = req.body.text?.trim() ?? "";
-  // const sponsors = req.body.sponsors?.trim() ?? "";
+  const sponsors = [];
+  for (const key of Object.keys(req.body)) {
+    const ind = parseInt(key);
+    if (isFinite(ind)) {
+      sponsors.push(ind);
+    }
+  }
 
-  if (!NAME_REGEX.test(title)) {
+  if (title.length < 1) {
     return badName(req, res, "Title", title);
   }
   if (text?.length < 1) {
     return badName(req, res, "Text", text);
   }
-  // if (!NAME_REGEX.test(sponsors)) {
-  //   return badName(req, res, "Sponsors", sponsors);
-  // }
 
-  req.legislation.insert({ title, text /*, sponsors*/ });
+  req.legislation.insert({ title, text, sponsors });
 
   res.render('legislation/table', {
     heading: "All Legislation",
+    legislators: req.legislatorsAll.data(),
     legislation: req.legislationAll.data()
   });
 });

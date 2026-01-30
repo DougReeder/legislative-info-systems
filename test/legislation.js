@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import http from "http";
 
 import collectionsFactory from '../db/collectionsFactory.js';
-const { injectLegislators, injectLegislation } = await collectionsFactory(false);
+const { legislators, injectLegislators, injectLegislation } = await collectionsFactory(false);
 import appFactory from '../appFactory.js';
 const app = await appFactory({injectLegislators, injectLegislation});
 
@@ -15,6 +15,9 @@ describe("legislation create", () => {
   let server;
 
   before( (_, done) => {
+    legislators.insert({ firstName: "John", lastName: "Doe", hometown: "Centerville" });
+    legislators.insert({ firstName: "Alexis", lastName: "Ballyrun", hometown: "Columbus" });
+
     server = http.createServer(app);
     server.listen(PORT, () => {
       console.debug(`HTTP server listening on port ${PORT}`);
@@ -49,6 +52,11 @@ describe("legislation create", () => {
     assert.match(form, /<input type="text" name="title" id="title" required/);
     assert.match(form, /<label for="text">Text.*<\/label>/);
     assert.match(form, /<textarea name="text" id="text" required minLength="1" maxLength="100000">/);
+    assert.match(form, /<label>Sponsors.*<\/label>/);
+
+    const checkboxes = /<div class="grow">(.*)<\/div>/.exec(text)?.[1];
+    assert.match(checkboxes, /<label for="1">John Doe<\/label><input type="checkbox" id="1" name="1">/);
+    assert.match(checkboxes, /<label for="2">Alexis Ballyrun<\/label><input type="checkbox" id="2" name="2">/);
 
     assert.match(form, /<button type="submit">/);
   });

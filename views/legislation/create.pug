@@ -4,11 +4,15 @@ block content
     form(action="/legislation/create" method="post")
         div(class="form-line")
             label(for="title") Title: &nbsp;
-            input(type="text" name="title" id="title" required pattern="[\\p{L}\\p{Mn}\\p{Pd}\\p{Zs}']{2,50}")
+            input(type="text" name="title" id="title" required pattern=".*\\p{L}.*")
         div(class="form-line")
             label(for="text") Text: &nbsp;
             textarea(name="text" id="text" required minLength="1" maxLength="100000")
-        //div(class="form-item")
-        //    label(for="sponsors") Sponsors: &nbsp;
-        //    input(type="text" name="sponsors" id="sponsors" required pattern="[\\p{L}\\p{Mn}\\p{Pd}\\p{Zs}']{2,50}")
+        div(class="form-line")
+            label Sponsors:
+            div(class="grow")
+                each legislator in legislators
+                    label(for=legislator.$loki) #{legislator.firstName} #{legislator.lastName}
+                    input(type="checkbox" id=legislator.$loki name=legislator.$loki)
+                    |  &nbsp;
         button(type="submit") Create legislation

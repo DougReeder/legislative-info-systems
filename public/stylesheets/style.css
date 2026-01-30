@@ -27,12 +27,20 @@ form {
   align-items: center;
 }
 
+.form-line > label {
+  margin-right: 1lh;
+}
+
 .form-line input {
   flex: 1;
 }
 
 .form-line textarea {
-  flex: 1;
+  flex: 1 1 auto;
 
   min-height: 12lh;
+}
+
+.grow {
+  flex: 1 1 auto;
 }
