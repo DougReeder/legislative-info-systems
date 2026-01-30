@@ -4,7 +4,7 @@
 
 Using a *nix-compatible shell:
 
-1. Install Node.js v24 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
+1. Install Node.js v20 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
 2. Run `git clone https://github.com/DougReeder/legislative-info-systems.git`
 3. Run `cd legislative-info-systems`
 4. Run `npm ci`
@@ -23,7 +23,7 @@ To clear the data, delete this file.
 
 Using a *nix-compatible shell:
 
-1. Install Node.js v24 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
+1. Install Node.js v20 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
 2. Run `git clone https://github.com/DougReeder/legislative-info-systems.git`
 3. Run `cd legislative-info-systems`
 4. Run `npm ci`
@@ -40,6 +40,9 @@ Development was done under MacOS Sequioa 15.7.3; please report any issues runnin
 The chief goal was to simplicity of setup and operation.
 Thus an in-memory database was used.
 This is fast and can handle surprisingly large datasets, but can't be shared with other application servers to increase capacity.
+
+Automated tests were written using only assertions that are part of Node.js itself.
+Testing HTML against RegExes is fragile; it would be better to parse the HTML and make assertions about the structure.
 
 ETags are generated, and it should be possible to put a cacheing proxy in front of this, but that has not been tested.
 
