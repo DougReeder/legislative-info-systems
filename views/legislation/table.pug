@@ -2,7 +2,8 @@ extends ../layout
 
 block content
     each item in legislation
-        details
+        - let isNew = (item.$loki === indNew)
+        details(open=isNew)
             summary
                 b= item.title
             p= item.text

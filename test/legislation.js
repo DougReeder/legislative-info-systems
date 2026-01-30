@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import http from "http";
 
 import collectionsFactory from '../db/collectionsFactory.js';
-const { legislators, injectLegislators, injectLegislation } = await collectionsFactory(false);
+const { legislators, injectLegislators, legislation, injectLegislation } = await collectionsFactory(false);
 import appFactory from '../appFactory.js';
 const app = await appFactory({injectLegislators, injectLegislation});
 
@@ -59,5 +59,23 @@ describe("legislation create", () => {
     assert.match(checkboxes, /<label for="2">Alexis Ballyrun<\/label><input type="checkbox" id="2" name="2">/);
 
     assert.match(form, /<button type="submit">/);
+  });
+
+  it("POST should accept a valid legislation & display all", async() => {
+    legislators.insert({ firstName: "John", lastName: "Doe", hometown: "Centerville" });
+    legislators.insert({ firstName: "Alexis", lastName: "Ballyrun", hometown: "Columbus" });
+    legislation.insert({ title: "Old Bill", "text": "some text", sponsors: []});
+
+    const params = new URLSearchParams([["title", "A Bill"], ["text", "Lorem Ipsum"], ["2", "on"]]);
+    const response = await fetch(url, {
+      method: 'POST',
+      body: params,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    });
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.match(text, /<h1>All Legislation<\/h1>/);
+    assert.match(text, /<details open><summary><b>A Bill<\/b><\/summary><p>Lorem Ipsum<\/p><p>Alexis Ballyrun<\/p><\/details>/);
+    assert.match(text, /<details><summary><b>Old Bill<\/b><\/summary><p>some text<\/p><p><\/p><\/details>/);
   });
 });

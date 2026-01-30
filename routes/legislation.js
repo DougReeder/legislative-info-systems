@@ -41,12 +41,13 @@ router.post('/create', express.urlencoded({limit: 100_000}), function (req, res,
     return badName(req, res, "Text", text);
   }
 
-  req.legislation.insert({ title, text, sponsors });
+  const record = req.legislation.insert({ title, text, sponsors });
 
   res.render('legislation/table', {
     heading: "All Legislation",
     legislators: req.legislatorsAll.data(),
-    legislation: legislationWSponsorNames(req.legislationAll, req.legislators)
+    legislation: legislationWSponsorNames(req.legislationAll, req.legislators),
+    indNew: record.$loki
   });
 });
 
