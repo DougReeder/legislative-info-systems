@@ -3,6 +3,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+nav {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 a {
   color: #00B7FF;
 }

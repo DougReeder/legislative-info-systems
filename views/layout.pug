@@ -4,4 +4,9 @@ html
     title #{heading} | #{appTitle}
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    h1= heading
+    nav
+      a(href="/") Home
+      | &nbsp;
+      a(href="/legislator/create") Create Legislator
+  block content

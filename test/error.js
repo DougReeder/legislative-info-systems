@@ -42,9 +42,13 @@ describe("404 Not Found error page", () => {
     assert.match(text, /<h1>Sorry, we couldn't find that page<\/h1>/);
   });
 
-  it("should have a link to home", async () => {
+  it("should have a nav bar with links to Home & Create Legislator", async () => {
     const response = await fetch(url);
     const text = await response.text();
-    assert.ok(text.includes('<a href="/">Home</a>'));
+
+    const nav = /<nav>(.*)<\/nav>/.exec(text)?.[1];
+    assert.ok(nav);
+    assert.match(nav, /<a href="\/">Home<\/a>/);
+    assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
   });
 });

@@ -47,6 +47,16 @@ describe("index page", () => {
     assert.ok(text.includes('<h1>Home</h1>'));
   });
 
+  it("should have a nav bar with links to Home & legislator create", async () => {
+    const response = await fetch(`http://localhost:${PORT}/`);
+    const text = await response.text();
+
+    const nav = /<nav>(.*)<\/nav>/.exec(text)?.[1];
+    assert.ok(nav);
+    assert.match(nav, /<a href="\/">Home<\/a>/);
+    assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+  });
+
   it("should have empty drawer of legislators", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();

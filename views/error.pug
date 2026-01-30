@@ -1,9 +1,5 @@
 extends layout
 
 block content
-  h1= heading
   h2= error.status
   pre #{error.stack}
-
-  div Go &nbsp;
-    a(href="/") Home

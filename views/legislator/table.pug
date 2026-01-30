@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-    h1= heading
     ul
         each legislator in legislators
             li #{legislator.firstName} #{legislator.lastName} from #{legislator.hometown}

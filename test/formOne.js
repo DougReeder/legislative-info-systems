@@ -35,11 +35,21 @@ describe("legislator create", () => {
     const text = await response.text();
     assert.match(text, /<title>Create Legislator \| Legislative Info Systems<\/title>/);
     assert.match(text, /<h1>Create Legislator<\/h1>/);
-    assert.match(text, /<form action="\/legislator\/create" method="post">/);
-    assert.match(text, /<input type="text" name="firstName" id="firstName" required/);
-    assert.match(text, /<input type="text" name="lastName" id="lastName" required/);
-    assert.match(text, /<input type="text" name="hometown" id="hometown" required/);
-    assert.match(text, /<button type="submit">/);
+
+    const nav = /<nav>(.*)<\/nav>/.exec(text)?.[1];
+    assert.ok(nav);
+    assert.match(nav, /<a href="\/">Home<\/a>/);
+    assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+
+    const form = /<form\b.*<\/form>/.exec(text)?.[0];
+    assert.match(form, /<form action="\/legislator\/create" method="post">/);
+    assert.match(form, /<label for="firstName">First name.*<\/label>/);
+    assert.match(form, /<input type="text" name="firstName" id="firstName" required/);
+    assert.match(form, /<label for="lastName">Last name.*<\/label>/);
+    assert.match(form, /<input type="text" name="lastName" id="lastName" required/);
+    assert.match(form, /<label for="hometown">Hometown.*<\/label>/);
+    assert.match(form, /<input type="text" name="hometown" id="hometown" required/);
+    assert.match(form, /<button type="submit">/);
   });
 
   it("should reject a POST without form data", async() => {
@@ -83,6 +93,12 @@ describe("legislator create", () => {
     });
     assert.equal(response2.status, 200);
     const text2 = await response2.text();
+
+    const nav = /<nav>(.*)<\/nav>/.exec(text2)?.[1];
+    assert.ok(nav);
+    assert.match(nav, /<a href="\/">Home<\/a>/);
+    assert.match(nav, /<a href="\/legislator\/create">Create Legislator<\/a>/);
+
     assert.match(text2, /<ul><li>Alexis Ballyrun from Columbus<\/li><li>John Doe from Centerville<\/li><\/ul>/);
   });
  });
