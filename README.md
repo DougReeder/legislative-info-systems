@@ -27,7 +27,7 @@ Using a *nix-compatible shell:
 2. Run `git clone https://github.com/DougReeder/legislative-info-systems.git`
 3. Run `cd legislative-info-systems`
 4. Run `npm ci`
-5. Run `npm dev`
+5. Run `npm run dev`
 
 To run tests once, run `npm test`.
 To run tests continuously, run `npm run test:watch`.
