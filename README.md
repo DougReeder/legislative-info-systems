@@ -4,7 +4,7 @@
 
 Using a *nix-compatible shell:
 
-1. Install Node.js v24 or later, including NPM
+1. Install Node.js v24 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
 2. Run `git clone https://github.com/DougReeder/legislative-info-systems.git`
 3. Run `cd legislative-info-systems`
 4. Run `npm ci`
@@ -23,11 +23,12 @@ To clear the data, delete this file.
 
 Using a *nix-compatible shell:
 
-1. Install Node.js v24 or later, including NPM
+1. Install Node.js v24 or later, including NPM (https://nodejs.org/en/download or https://github.com/nvm-sh/nvm)
 2. Run `git clone https://github.com/DougReeder/legislative-info-systems.git`
 3. Run `cd legislative-info-systems`
 4. Run `npm ci`
 5. Run `npm run dev`
+6. In a web browser, navigate to `http://localhost:3000/`
 
 To run tests once, run `npm test`.
 To run tests continuously, run `npm run test:watch`.
