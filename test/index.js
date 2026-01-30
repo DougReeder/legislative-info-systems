@@ -62,7 +62,7 @@ describe("index page", () => {
   it("should have empty drawer of legislators", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
-    assert.match(text, /<details open><summary>Legislators<\/summary><ul><\/ul><\/details>/);
+    assert.match(text, /<details open><summary><b>Legislators<\/b><\/summary><ul><\/ul><\/details>/);
   });
 
   // TODO: fix so order of tests doesn't matter
@@ -72,23 +72,23 @@ describe("index page", () => {
     const response2 = await fetch(`http://localhost:${PORT}/`);
     assert.equal(response2.status, 200);
     const text = await response2.text();
-    assert.match(text, /<details open><summary>Legislators<\/summary><ul><li>Richard Roe from Worthington<\/li><\/ul><\/details>/);
+    assert.match(text, /<details open><summary><b>Legislators<\/b><\/summary><ul><li>Richard Roe from Worthington<\/li><\/ul><\/details>/);
   });
 
   // TODO: fix so order of tests doesn't matter
-  it("should have empty drawer of legislation", async () => {
+  it("should display with no legislation", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
-    assert.match(text, /<details open><summary>Legislation<\/summary><\/details>/);
+    assert.match(text, /<h2>Legislation<\/h2><\/body>/);
   });
 
   // TODO: fix so order of tests doesn't matter
-  it("should have filled drawer of legislation", async () => {
+  it("should have filled drawers of legislation", async () => {
     legislators.insert({ firstName: "Richard", lastName: "Roe", hometown: "Worthington" });
     legislation.insert({ title: "Some Bill", text: "Lorem Ipsum" , sponsors: [1] });
 
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
-    assert.match(text, /<details open><summary>Legislation<\/summary><h3>Some Bill<\/h3><p>Lorem Ipsum<\/p><p>Richard Roe<\/p><\/details>/);
+    assert.match(text, /<h2>Legislation<\/h2><details><summary><b>Some Bill<\/b><\/summary><p>Lorem Ipsum<\/p><p>Richard Roe<\/p><\/details>/);
   });
 });
