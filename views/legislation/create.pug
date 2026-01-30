@@ -12,7 +12,8 @@ block content
             label Sponsors:
             div(class="grow")
                 each legislator in legislators
-                    label(for=legislator.$loki) #{legislator.firstName} #{legislator.lastName}
-                    input(type="checkbox" id=legislator.$loki name=legislator.$loki)
+                    div
+                        label(for=legislator.$loki) #{legislator.firstName} #{legislator.lastName}
+                        input(type="checkbox" id=legislator.$loki name=legislator.$loki)
                     |  &nbsp;
         button(type="submit") Create legislation

@@ -45,6 +45,10 @@ form {
   flex: 1 1 auto;
 }
 
+.grow div {
+  display: inline-block;
+}
+
 details {
   margin-top: 1lh;
   margin-bottom: 1lh;
