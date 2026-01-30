@@ -58,12 +58,14 @@ describe("index page", () => {
     assert.match(nav, /<a href="\/legislation\/create">Create Legislation<\/a>/);
   });
 
+  // TODO: fix so order of tests doesn't matter
   it("should have empty drawer of legislators", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
     assert.match(text, /<details open><summary>Legislators<\/summary><ul><\/ul><\/details>/);
   });
 
+  // TODO: fix so order of tests doesn't matter
   it("should have filled drawer of legislators", async () => {
     legislators.insert({ firstName: "Richard", lastName: "Roe", hometown: "Worthington" });
 
@@ -73,17 +75,20 @@ describe("index page", () => {
     assert.match(text, /<details open><summary>Legislators<\/summary><ul><li>Richard Roe from Worthington<\/li><\/ul><\/details>/);
   });
 
+  // TODO: fix so order of tests doesn't matter
   it("should have empty drawer of legislation", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
     assert.match(text, /<details open><summary>Legislation<\/summary><\/details>/);
   });
 
+  // TODO: fix so order of tests doesn't matter
   it("should have filled drawer of legislation", async () => {
-    legislation.insert({ title: "Some Bill", text: "Lorem Ipsum" /*, sponsors: */ });
+    legislators.insert({ firstName: "Richard", lastName: "Roe", hometown: "Worthington" });
+    legislation.insert({ title: "Some Bill", text: "Lorem Ipsum" , sponsors: [1] });
 
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
-    assert.match(text, /<details open><summary>Legislation<\/summary><h2>Some Bill<\/h2><p>Lorem Ipsum<\/p><\/details>/);
+    assert.match(text, /<details open><summary>Legislation<\/summary><h3>Some Bill<\/h3><p>Lorem Ipsum<\/p><p>Richard Roe<\/p><\/details>/);
   });
 });

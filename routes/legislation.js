@@ -1,5 +1,6 @@
 import express from 'express';
 import {NAME_REGEX, badName} from "../util/name.js";
+import legislationWSponsorNames from "../db/legislationWSponsorNames.js";
 
 const router = express.Router();
 
@@ -45,7 +46,7 @@ router.post('/create', express.urlencoded({limit: 100_000}), function (req, res,
   res.render('legislation/table', {
     heading: "All Legislation",
     legislators: req.legislatorsAll.data(),
-    legislation: req.legislationAll.data()
+    legislation: legislationWSponsorNames(req.legislationAll, req.legislators)
   });
 });
 
