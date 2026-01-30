@@ -2,14 +2,16 @@ extends layout
 
 block content
   details(open)
-    summary Legislators
+    summary
+      b Legislators
     ul
       each legislator in legislators
         li #{legislator.firstName} #{legislator.lastName} from #{legislator.hometown}
-  details(open)
-    summary Legislation
-    each item in legislation
-      h3= item.title
+  h2 Legislation
+  each item in legislation
+    details
+      summary
+        b= item.title
       p= item.text
       p= item.sponsorText
 

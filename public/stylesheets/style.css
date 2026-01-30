@@ -44,3 +44,12 @@ form {
 .grow {
   flex: 1 1 auto;
 }
+
+details {
+  margin-top: 1lh;
+  margin-bottom: 1lh;
+}
+
+summary b {
+  font-size: larger;
+}
