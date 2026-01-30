@@ -4,11 +4,10 @@
   "type": "module",
   "private": false,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "NODE_ENV=production node ./bin/www",
     "dev": "node --watch ./bin/www",
-    "prod": "NODE_ENV=production node ./bin/www",
     "test": "node --test",
-    "test-watch": "node --test --watch"
+    "test:watch": "node --test --watch"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
