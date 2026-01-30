@@ -8,7 +8,7 @@ const app = await appFactory({injectLegislators: mockInjectLegislators});
 const PORT = 60000 + Math.floor(Math.random() * 5565);
 app.set('port', PORT);
 
-describe("error page", () => {
+describe("404 Not Found error page", () => {
   const url = `http://localhost:${PORT}/foo`;
   let server;
 
@@ -35,10 +35,11 @@ describe("error page", () => {
         '; charset=utf-8'));
   });
 
-  it("should have a title", async () => {
+  it("should have a title & header", async () => {
     const response = await fetch(url);
     const text = await response.text();
-    assert.ok(text.includes("<title>Sorry, we couldn't find that page | Legislative Info Systems</title>"));
+    assert.match(text, /<title>Sorry, we couldn't find that page \| Legislative Info Systems<\/title>/);
+    assert.match(text, /<h1>Sorry, we couldn't find that page<\/h1>/);
   });
 
   it("should have a link to home", async () => {

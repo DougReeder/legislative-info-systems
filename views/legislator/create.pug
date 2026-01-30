@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-    h1 Create #{kind}
+    h1= heading
     form(action="/legislator/create" method="post")
         div(class="form-example")
             label(for="firstName") First name: &nbsp;

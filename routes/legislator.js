@@ -2,23 +2,22 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/create', function(req, res, next) {
-  const heading = "Create Legislator";
-  res.render('legislator/create', { kind: "Legislator", title: heading + " | " + req.app.locals.appTitle });
+  res.render('legislator/create', {
+    heading: "Create Legislator" });
 });
 
 const NAME_REGEX = /[\p{L}\p{Mn}\p{Pd}\p{Zs}']{2,50}/v;
 
 router.post('/create', express.urlencoded({limit: 1000, parameterLimit: 3}), function (req, res, next) {
   if (!req.body) {
-    res.locals.title = "Our bad" + " | " + req.app.locals.appTitle;
-    res.locals.message = "Our bad";
-    res.locals.error = req.app.get('env') === 'development' ?
-        {status: "No request body found"} :
-        {status: "If this recurs, please contact the system administrator"};
-
-    // render the error page
+    // renders the error page
     res.status(400);
-    res.render('error');
+    res.render('error', {
+      heading: "Our bad",
+      error: req.app.get('env') === 'development' ?
+          {status: "No request body found"} :
+          {status: "If this recurs, please contact the system administrator"}
+    });
 
     return;
   }
@@ -41,17 +40,16 @@ router.post('/create', express.urlencoded({limit: 1000, parameterLimit: 3}), fun
   const heading = "All Legislators";
   res.render('legislator/table', {
     heading,
-    title: heading + " | " + req.app.locals.appTitle,
     legislators: req.legislatorsAll.data()
   });
 });
 
 function badName(req, res, label, name) {
-  res.locals.message = "Invalid input";
-  res.locals.title = res.locals.message + " | " + req.app.locals.appTitle;
-  res.locals.error = { status: `${label} “${name}” is invalid` };
   res.status(400);
-  res.render('error');
+  res.render('error', {
+    heading: "Invalid input",
+    error: { status: `${label} “${name}” is invalid` }
+  });
 }
 
 export default router;

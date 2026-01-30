@@ -37,7 +37,7 @@ describe("index page", () => {
   it("should have a title", async () => {
     const response = await fetch(`http://localhost:${PORT}/`);
     const text = await response.text();
-    assert.ok(text.includes('<title>Home | Legislative Info Systems</title>'));
+    assert.match(text, /<title>Home \| Legislative Info Systems<\/title>/);
   });
 
   it("should have a heading", async () => {
